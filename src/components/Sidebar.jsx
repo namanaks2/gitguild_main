@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Target, CheckSquare, FileText, Settings as SettingsIcon, LogOut } from 'lucide-react';
 import { GithubIcon } from './GithubIcon';
+import { GitGuildLogo } from './GitGuildLogo';
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -17,8 +18,8 @@ export default function Sidebar() {
   return (
     <div className="w-64 glass-panel border-y-0 border-l-0 rounded-none h-full flex flex-col pt-6 z-10 transition-all">
       <div className="px-6 mb-8 flex items-center gap-3">
-        <div className="w-8 h-8 rounded-full bg-[var(--color-neon-purple)] shadow-[0_0_15px_rgba(168,85,247,0.8)] flex items-center justify-center font-bold">
-          G
+        <div className="flex-shrink-0 drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]">
+           <GitGuildLogo className="w-10 h-10" />
         </div>
         <h1 className="text-xl font-bold tracking-widest neon-text-purple uppercase">GitGuild</h1>
       </div>

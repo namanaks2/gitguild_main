@@ -1,7 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Fingerprint, Cpu, Crosshair, Sparkles } from 'lucide-react';
+import { Fingerprint, Cpu, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import { useAppContext } from '../context/AppContext';
+import { GitGuildLogo } from '../components/GitGuildLogo';
 
 export default function Signup() {
   const [name, setName] = useState('');
@@ -10,7 +11,7 @@ export default function Signup() {
   const [isRegistering, setIsRegistering] = useState(false);
   const [statusText, setStatusText] = useState('');
   const navigate = useNavigate();
-  const { setUser } = useAppContext();
+  const { registerNewUser } = useAppContext();
 
   const handleSignup = (e) => {
     e.preventDefault();
@@ -25,7 +26,7 @@ export default function Signup() {
     
     setTimeout(() => {
       // Setup the context to this user and login directly
-      setUser(prev => ({ ...prev, name }));
+      registerNewUser(name);
       navigate('/');
     }, 3000);
   };
@@ -53,8 +54,8 @@ export default function Signup() {
           <div className="flex flex-col items-center mb-10 relative">
             <div className="mb-4 relative">
                <div className="absolute inset-0 bg-[var(--color-neon-purple)] blur-lg opacity-40 animate-pulse rounded-full"></div>
-               <div className="w-16 h-16 rounded-full border border-[var(--color-neon-purple)]/60 bg-[#0a0a1a] flex items-center justify-center relative z-10">
-                 <Crosshair size={28} className="text-[var(--color-neon-purple)]" />
+               <div className="w-20 h-20 flex items-center justify-center relative z-10 drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">
+                 <GitGuildLogo className="w-full h-full text-[var(--color-neon-purple)]" />
                </div>
             </div>
             <h1 className="text-3xl font-black tracking-widest uppercase text-white shadow-[var(--color-neon-purple)] flex items-center gap-2">

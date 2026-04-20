@@ -3,27 +3,32 @@ import { Target, CheckSquare, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Dashboard() {
-  const { user, projects, tasks, addXp } = useAppContext();
+  const { user, projects, tasks, hasClaimedDaily, claimDaily } = useAppContext();
 
   const xpPercentage = Math.round((user.xp / user.nextLevelXp) * 100);
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-8 animate-fade-in-up">
         <div>
           <h1 className="text-3xl font-bold mb-2">Welcome Back, <span className="neon-text-blue">{user.name}</span></h1>
           <p className="text-[var(--color-text-secondary)]">Your guild awaits. Continue your quests to earn XP.</p>
         </div>
         <button 
-          onClick={() => addXp(50)}
-          className="game-button bg-[var(--color-neon-blue)] text-white px-6 py-2.5 flex items-center gap-2 shadow-[0_0_15px_rgba(14,165,233,0.5)]"
+          onClick={claimDaily}
+          disabled={hasClaimedDaily}
+          className={`game-button px-6 py-2.5 flex items-center gap-2 transition-all ${
+            hasClaimedDaily 
+              ? 'bg-[var(--color-dark-panel)] text-gray-500 cursor-not-allowed border border-[var(--color-dark-border)]' 
+              : 'bg-[var(--color-neon-blue)] text-white shadow-[0_0_15px_rgba(14,165,233,0.5)] hover:shadow-[0_0_25px_rgba(14,165,233,0.8)]'
+          }`}
         >
-          <Zap size={18} fill="currentColor" />
-          Claim Daily Login
+          <Zap size={18} fill="currentColor" className={hasClaimedDaily ? 'text-gray-600' : 'text-white'} />
+          {hasClaimedDaily ? 'Reward Claimed' : 'Claim Daily Login'}
         </button>
       </div>
 
-      <div className="glass-panel p-6 mb-8 relative overflow-hidden">
+      <div className="glass-panel p-6 mb-8 relative overflow-hidden animate-fade-in-up delay-100 opacity-0">
         <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--color-neon-purple)] rounded-full mix-blend-screen filter blur-[100px] opacity-20"></div>
         <div className="flex flex-wrap md:flex-nowrap gap-8 items-center relative z-10">
           <div className="w-32 h-32 rounded-full border-4 border-[var(--color-dark-panel)] flex items-center justify-center p-2 relative shadow-[0_0_30px_rgba(14,165,233,0.4)]">
@@ -52,7 +57,7 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="glass-panel p-6 flex flex-col h-[400px]">
+        <div className="glass-panel p-6 flex flex-col h-[400px] animate-fade-in-up delay-200 opacity-0 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-shadow">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-bold flex items-center gap-2">
               <Target className="text-[var(--color-neon-purple)]" /> Active Quests
@@ -82,7 +87,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="glass-panel p-6 flex flex-col h-[400px]">
+        <div className="glass-panel p-6 flex flex-col h-[400px] animate-fade-in-up delay-300 opacity-0 hover:shadow-[0_0_20px_rgba(34,197,94,0.15)] transition-shadow">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-bold flex items-center gap-2">
               <CheckSquare className="text-[var(--color-neon-green)]" /> Today's Targets

@@ -1,7 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { ShieldAlert, Terminal, Zap, Fingerprint } from 'lucide-react';
+import { ShieldAlert, Zap, Fingerprint } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
+import { GitGuildLogo } from '../components/GitGuildLogo';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -9,7 +10,7 @@ export default function Login() {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [statusText, setStatusText] = useState('');
   const navigate = useNavigate();
-  const { setUser } = useAppContext();
+  const { loginExistingUser } = useAppContext();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -25,7 +26,7 @@ export default function Login() {
     setTimeout(() => {
       // Set a fun user name based on the email input's first part
       const name = email.split('@')[0] || 'Player One';
-      setUser(prev => ({ ...prev, name }));
+      loginExistingUser(name);
       navigate('/');
     }, 2200);
   };
@@ -56,8 +57,8 @@ export default function Login() {
           <div className="flex flex-col items-center mb-10 relative">
             <div className="relative mb-6 group cursor-pointer">
               <div className="absolute inset-0 bg-[var(--color-neon-blue)] blur-xl opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
-              <div className="w-20 h-20 border border-[var(--color-neon-blue)]/50 bg-[#050B14] flex items-center justify-center relative z-10 transform rotate-45 group-hover:rotate-90 transition-transform duration-500">
-                 <Terminal size={32} className="text-[var(--color-neon-blue)] -rotate-45 group-hover:-rotate-90 transition-transform duration-500" />
+              <div className="w-24 h-24 flex items-center justify-center relative z-10 transition-transform duration-500 drop-shadow-[0_0_15px_rgba(14,165,233,0.5)]">
+                 <GitGuildLogo className="w-full h-full text-[var(--color-neon-blue)]" />
               </div>
             </div>
             <h1 className="text-4xl font-black tracking-[0.2em] uppercase neon-text-blue text-center flex items-center gap-2">

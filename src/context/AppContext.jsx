@@ -24,6 +24,7 @@ export const AppProvider = ({ children }) => {
   ]);
 
   const [notes, setNotes] = useState('## Welcome to GitGuild\n\nWrite your thoughts here...');
+  const [hasClaimedDaily, setHasClaimedDaily] = useState(false);
 
   const addProject = (project) => {
     setProjects(prev => [...prev, { ...project, id: Date.now(), progress: 0 }]);
@@ -54,13 +55,43 @@ export const AppProvider = ({ children }) => {
     });
   };
 
+  const claimDaily = () => {
+    if (hasClaimedDaily) return;
+    addXp(50);
+    setHasClaimedDaily(true);
+  };
+
+  const loginExistingUser = (name) => {
+    setUser({ name, level: 12, xp: 4500, nextLevelXp: 5000 });
+    setProjects([
+      { id: 1, title: 'Build GitGuild', theme: 'space', techStack: 'React, Tailwind', days: 14, description: 'A gamified dev environment.', progress: 45 },
+      { id: 2, title: 'AI Chatbot', theme: 'cyberpunk', techStack: 'Python, FastAPI', days: 7, description: 'An AI assistant for devs.', progress: 10 },
+    ]);
+    setTasks([
+      { id: 1, title: 'Setup React Router', difficulty: 'easy', completed: true },
+      { id: 2, title: 'Design Dashboard UI', difficulty: 'hard', completed: false },
+      { id: 3, title: 'Implement Auth API', difficulty: 'medium', completed: false },
+    ]);
+    setHasClaimedDaily(false);
+  };
+
+  const registerNewUser = (name) => {
+    setUser({ name, level: 1, xp: 0, nextLevelXp: 1000 });
+    setProjects([]);
+    setTasks([]);
+    setHasClaimedDaily(false);
+  };
+
   return (
     <AppContext.Provider value={{
       user, setUser,
       projects, addProject, deleteProject,
       tasks, addTask, toggleTask, deleteTask,
       notes, setNotes,
-      addXp
+      addXp,
+      hasClaimedDaily, claimDaily,
+      loginExistingUser,
+      registerNewUser
     }}>
       {children}
     </AppContext.Provider>

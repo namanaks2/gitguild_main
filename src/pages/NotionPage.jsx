@@ -15,7 +15,7 @@ export default function NotionPage() {
 
   return (
     <div className="max-w-4xl mx-auto h-[calc(100vh-120px)] flex flex-col">
-      <div className="mb-6 flex items-center justify-between shrink-0">
+      <div className="mb-6 flex items-center justify-between shrink-0 animate-fade-in-up">
         <h1 className="text-3xl font-bold flex items-center gap-3">
           <FileText className="text-[var(--color-neon-blue)]" size={32} /> Grimoire
         </h1>
@@ -31,7 +31,7 @@ export default function NotionPage() {
         </button>
       </div>
 
-      <div className="flex-1 glass-panel overflow-hidden flex flex-col">
+      <div className="flex-1 glass-panel overflow-hidden flex flex-col animate-fade-in-up delay-100 opacity-0 translate-y-10 group transition-all duration-1000 ease-out hover:border-[var(--color-neon-blue)]/50 focus-within:border-[var(--color-neon-blue)]">
         <div className="h-10 border-b border-[var(--color-dark-border)] bg-[var(--color-dark-bg)]/50 flex items-center px-4 gap-4 text-sm text-gray-400">
            <button className="hover:text-white font-bold">H1</button>
            <button className="hover:text-white font-bold">H2</button>

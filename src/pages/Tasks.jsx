@@ -27,7 +27,7 @@ export default function Tasks() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-8 flex items-center justify-between animate-fade-in-up">
          <div>
             <h1 className="text-3xl font-bold flex items-center gap-3">
                <CheckSquare className="text-[var(--color-neon-green)]" size={32} /> Task Board
@@ -40,7 +40,7 @@ export default function Tasks() {
          </div>
       </div>
 
-      <div className="glass-panel p-6 mb-8">
+      <div className="glass-panel p-6 mb-8 animate-fade-in-up delay-100 opacity-0 relative z-20">
         <form onSubmit={handleAddTask} className="flex gap-4">
           <input 
             type="text" 
@@ -63,10 +63,11 @@ export default function Tasks() {
       </div>
 
       <div className="space-y-3">
-        {tasks.map(task => (
+        {tasks.map((task, index) => (
           <div 
             key={task.id} 
-            className={`glass-panel p-4 flex items-center gap-4 transition-all ${
+            style={{ animationDelay: `${(index % 5 + 2) * 100}ms` }}
+            className={`glass-panel p-4 flex items-center gap-4 transition-all animate-fade-in-up opacity-0 ${
               task.completed ? 'opacity-60 border-[var(--color-neon-green)]/30 bg-[var(--color-dark-bg)]/80' : 'hover:border-[var(--color-neon-green)]/50'
             }`}
           >

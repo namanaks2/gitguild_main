@@ -6,7 +6,7 @@ export default function Settings() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="mb-8">
+      <div className="mb-8 animate-fade-in-up">
         <h1 className="text-3xl font-bold flex items-center gap-3">
           <SettingsIcon className="text-gray-400" size={32} /> Configuration
         </h1>
@@ -14,7 +14,7 @@ export default function Settings() {
       </div>
 
       <div className="flex flex-col md:flex-row gap-8">
-        <div className="w-full md:w-64 space-y-2">
+        <div className="w-full md:w-64 space-y-2 animate-fade-in-up delay-100 opacity-0">
           <button className="w-full text-left px-4 py-3 rounded-lg bg-[var(--color-dark-panel)] border border-[var(--color-dark-border)] flex items-center gap-3 text-[var(--color-neon-blue)] font-bold">
              <User size={18} /> Profile
           </button>
@@ -26,7 +26,10 @@ export default function Settings() {
           </button>
         </div>
 
-        <div className="flex-1 glass-panel p-6">
+        <div className="flex-1 glass-panel p-6 animate-fade-in-up delay-200 opacity-0 relative overflow-hidden">
+          {/* Subtle glow effect */}
+          <div className="absolute -top-10 -right-10 w-40 h-40 bg-[var(--color-neon-blue)] rounded-full mix-blend-screen filter blur-[80px] opacity-20 pointer-events-none"></div>
+
           <h2 className="text-xl font-bold mb-6 pb-4 border-b border-[var(--color-dark-border)]">Player Profile</h2>
           
           <div className="space-y-6">
