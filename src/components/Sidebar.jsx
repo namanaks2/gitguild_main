@@ -1,8 +1,10 @@
-import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Target, CheckSquare, FileText, Settings as SettingsIcon } from 'lucide-react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { LayoutDashboard, Target, CheckSquare, FileText, Settings as SettingsIcon, LogOut } from 'lucide-react';
 import { GithubIcon } from './GithubIcon';
 
 export default function Sidebar() {
+  const navigate = useNavigate();
+
   const links = [
     { to: '/', name: 'Dashboard', icon: <LayoutDashboard size={20} /> },
     { to: '/projects', name: 'Quests (Projects)', icon: <Target size={20} /> },
@@ -40,8 +42,14 @@ export default function Sidebar() {
         ))}
       </nav>
       
-      <div className="p-4 mt-auto">
-        <div className="glass-panel text-sm p-4 text-center text-[var(--color-text-secondary)]">
+      <div className="p-4 mt-auto space-y-4">
+        <button 
+          onClick={() => navigate('/login')}
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[var(--color-dark-panel)] border border-[var(--color-dark-border)] rounded-lg text-red-400 hover:text-red-300 hover:border-red-500/50 hover:bg-red-500/10 transition-all font-bold uppercase tracking-wider text-sm"
+        >
+          <LogOut size={18} /> Disconnect
+        </button>
+        <div className="text-xs text-center text-[var(--color-text-secondary)] opacity-50 uppercase tracking-widest">
           v1.0.0 Alpha
         </div>
       </div>
