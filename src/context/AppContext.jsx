@@ -10,6 +10,7 @@ export const AppProvider = ({ children }) => {
     level: 12,
     xp: 4500,
     nextLevelXp: 5000,
+    isAuthenticated: false
   });
 
   const [projects, setProjects] = useState([
@@ -62,7 +63,7 @@ export const AppProvider = ({ children }) => {
   };
 
   const loginExistingUser = (name) => {
-    setUser({ name, level: 12, xp: 4500, nextLevelXp: 5000 });
+    setUser({ name, level: 12, xp: 4500, nextLevelXp: 5000, isAuthenticated: true });
     setProjects([
       { id: 1, title: 'Build GitGuild', theme: 'space', techStack: 'React, Tailwind', days: 14, description: 'A gamified dev environment.', progress: 45 },
       { id: 2, title: 'AI Chatbot', theme: 'cyberpunk', techStack: 'Python, FastAPI', days: 7, description: 'An AI assistant for devs.', progress: 10 },
@@ -76,7 +77,7 @@ export const AppProvider = ({ children }) => {
   };
 
   const registerNewUser = (name) => {
-    setUser({ name, level: 1, xp: 0, nextLevelXp: 1000 });
+    setUser({ name, level: 1, xp: 0, nextLevelXp: 1000, isAuthenticated: true });
     setProjects([]);
     setTasks([]);
     setHasClaimedDaily(false);
@@ -91,7 +92,8 @@ export const AppProvider = ({ children }) => {
       addXp,
       hasClaimedDaily, claimDaily,
       loginExistingUser,
-      registerNewUser
+      registerNewUser,
+      logoutUser: () => setUser(prev => ({ ...prev, isAuthenticated: false }))
     }}>
       {children}
     </AppContext.Provider>
