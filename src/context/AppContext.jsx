@@ -27,6 +27,16 @@ export const AppProvider = ({ children }) => {
   const [notes, setNotes] = useState('## Welcome to GitGuild\n\nWrite your thoughts here...');
   const [hasClaimedDaily, setHasClaimedDaily] = useState(false);
 
+  // Settings state
+  const [theme, setTheme] = useState('midnight');
+  const [animationsEnabled, setAnimationsEnabled] = useState(true);
+  const [particlesEnabled, setParticlesEnabled] = useState(true);
+  const [soundsEnabled, setSoundsEnabled] = useState(true);
+
+  useEffect(() => {
+    document.body.className = `theme-${theme}`;
+  }, [theme]);
+
   const addProject = (project) => {
     setProjects(prev => [...prev, { ...project, id: Date.now(), progress: 0 }]);
   };
@@ -93,7 +103,11 @@ export const AppProvider = ({ children }) => {
       hasClaimedDaily, claimDaily,
       loginExistingUser,
       registerNewUser,
-      logoutUser: () => setUser(prev => ({ ...prev, isAuthenticated: false }))
+      logoutUser: () => setUser(prev => ({ ...prev, isAuthenticated: false })),
+      theme, setTheme,
+      animationsEnabled, setAnimationsEnabled,
+      particlesEnabled, setParticlesEnabled,
+      soundsEnabled, setSoundsEnabled
     }}>
       {children}
     </AppContext.Provider>
