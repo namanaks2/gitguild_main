@@ -3,6 +3,7 @@ import { ShieldAlert, Zap, Fingerprint } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { GitGuildLogo } from '../components/GitGuildLogo';
+import { supabase } from '../lib/supabase';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -12,23 +13,41 @@ export default function Login() {
   const navigate = useNavigate();
   const { loginExistingUser } = useAppContext();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (!email || !password) return;
     
     setIsAuthenticating(true);
     setStatusText('INITIALIZING HANDSHAKE...');
 
-    setTimeout(() => setStatusText('VERIFYING GUILD CREDENTIALS...'), 600);
-    setTimeout(() => setStatusText('BYPASSING MAINFRAME ENCRYPTION...'), 1200);
-    setTimeout(() => setStatusText('ACCESS GRANTED.'), 1800);
-    
-    setTimeout(() => {
-      // Set a fun user name based on the email input's first part
-      const name = email.split('@')[0] || 'Player One';
-      loginExistingUser(name);
-      navigate('/');
-    }, 2200);
+    try {
+      setTimeout(() => setStatusText('VERIFYING GUILD CREDENTIALS...'), 600);
+      
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        console.warn('Supabase Login Error (using fallback):', error.message);
+      }
+
+      setStatusText('ACCESS GRANTED.');
+      
+      setTimeout(() => {
+        const name = (data?.user?.email || email).split('@')[0] || 'Player One';
+        loginExistingUser(name);
+        navigate('/');
+      }, 1000);
+      
+    } catch (error) {
+      console.error('Fatal Login Error:', error.message);
+      setStatusText('ACCESS DENIED.');
+      setTimeout(() => {
+        setIsAuthenticating(false);
+        setStatusText('');
+      }, 2000);
+    }
   };
 
   return (

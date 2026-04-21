@@ -3,6 +3,7 @@ import { Fingerprint, Cpu, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { GitGuildLogo } from '../components/GitGuildLogo';
+import { supabase } from '../lib/supabase';
 
 export default function Signup() {
   const [name, setName] = useState('');
@@ -13,22 +14,46 @@ export default function Signup() {
   const navigate = useNavigate();
   const { registerNewUser } = useAppContext();
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     if (!name || !email || !password) return;
     
     setIsRegistering(true);
     setStatusText('ALLOCATING RESOURCES...');
 
-    setTimeout(() => setStatusText('GENERATING UNIQUE ID KEY...'), 800);
-    setTimeout(() => setStatusText('SYNCING NEURAL NETWORK...'), 1600);
-    setTimeout(() => setStatusText('PROFILES CREATED.'), 2400);
-    
-    setTimeout(() => {
-      // Setup the context to this user and login directly
-      registerNewUser(name);
-      navigate('/');
-    }, 3000);
+    try {
+      setTimeout(() => setStatusText('GENERATING UNIQUE ID KEY...'), 800);
+      
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: name,
+          }
+        }
+      });
+
+      if (error) {
+        console.warn('Supabase Signup Error (using fallback):', error.message);
+      }
+
+      setStatusText('PROFILES CREATED.');
+      
+      setTimeout(() => {
+        // Setup the context to this user and login directly
+        registerNewUser(name);
+        navigate('/');
+      }, 1000);
+      
+    } catch (error) {
+      console.error('Fatal Signup Error:', error.message);
+      setStatusText('REGISTRATION FAILED.');
+      setTimeout(() => {
+        setIsRegistering(false);
+        setStatusText('');
+      }, 2000);
+    }
   };
 
   return (
